@@ -22,6 +22,7 @@ class UQFIServiceProvider extends ServiceProvider
     {
         define("MOODLE_INTERNAL", "dummy");
         require_once(__DIR__ . '/../qformats/functions.php');
+        require_once(__DIR__ . '/../qformats/xmlize.php');
     }
 
     /**

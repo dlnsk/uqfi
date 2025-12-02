@@ -25,7 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/xmlize.php');
 if (!class_exists('qformat_default')) {
     // This is ugly, but this class is also (ab)used by mod/lesson, which defines
     // a different base class in mod/lesson/format.php. Thefore, we can only
@@ -174,8 +173,8 @@ class qformat_xml extends qformat_default {
                 array_merge($path, array('#', 'text', 0, '#')), $defaultvalue, true);
         $field['format'] = $this->trans_format($this->getpath($data,
                 array_merge($path, array('@', 'format')), $defaultformat));
-        $itemid = $this->import_files_as_draft($this->getpath($data,
-                array_merge($path, array('#', 'file')), array(), false));
+        $itemid = $this->getpath($data,
+                array_merge($path, array('#', 'file')), array(), false);
         if (!empty($itemid)) {
             $field['itemid'] = $itemid;
         }
