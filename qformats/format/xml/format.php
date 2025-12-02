@@ -1048,7 +1048,7 @@ class qformat_xml extends qformat_default {
         } else if ($questiontype == 'matching' || $questiontype == 'match') {
             return $this->import_match($questionxml);
         } else if ($questiontype == 'cloze' || $questiontype == 'multianswer') {
-            return $this->import_multianswer($questionxml);
+            return null;
         } else if ($questiontype == 'essay') {
             return $this->import_essay($questionxml);
         } else if ($questiontype == 'calculated') {
