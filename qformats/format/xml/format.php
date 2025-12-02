@@ -237,21 +237,14 @@ class qformat_xml extends qformat_default {
         $filedata = $this->getpath($question, array('#', 'image_base64', '0', '#'), null, false);
         $filename = $this->getpath($question, array('#', 'image', '0', '#'), null, false);
         if ($filedata && $filename) {
-            $fs = get_file_storage();
-            if (empty($qo->questiontextitemid)) {
-                $qo->questiontextitemid = file_get_unused_draft_itemid();
-            }
-            $filename = clean_param(str_replace('/', '_', $filename), PARAM_FILE);
-            $filerecord = array(
-                'contextid' => context_user::instance($USER->id)->id,
-                'component' => 'user',
-                'filearea'  => 'draft',
-                'itemid'    => $qo->questiontextitemid,
-                'filepath'  => '/',
-                'filename'  => $filename,
-            );
-            $fs->create_file_from_string($filerecord, base64_decode($filedata));
             $qo->questiontext .= ' <img src="@@PLUGINFILE@@/' . $filename . '" />';
+            $qo->questiontextitemid[] = [
+                '@' => [
+                    'name' => $filename,
+                    'encoding' => 'base64'
+                ],
+                '#' => $filedata,
+            ];
         }
 
         $qo->idnumber = $this->getpath($question, ['#', 'idnumber', 0, '#'], null);
