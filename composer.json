@@ -10,6 +10,9 @@
             "email": "dlnsk@mail.ru"
         }
     ],
+    "require": {
+        "ext-mbstring": "*"
+    },
     "autoload": {
        "psr-4": {
          "Dlnsk\\UQFI\\": "src"

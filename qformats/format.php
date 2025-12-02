@@ -720,7 +720,7 @@ class qformat_default {
      * @param array lines array of lines from readdata
      * @return array array of question objects
      */
-    protected function readquestions($lines) {
+    public function readquestions($lines) {
 
         $questions = array();
         $currentquestion = array();
@@ -809,7 +809,7 @@ class qformat_default {
         $name = clean_param($name, PARAM_TEXT); // Matches what the question editing form does.
         $name = trim($name);
         $trimlength = 251;
-        while (core_text::strlen($name) > 255 && $trimlength > 0) {
+        while (mb_strlen($name) > 255 && $trimlength > 0) {
             $name = shorten_text($name, $trimlength);
             $trimlength -= 10;
         }
