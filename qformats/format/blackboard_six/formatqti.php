@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/xmlize.php');
+//require_once($CFG->libdir . '/xmlize.php');
 
 /**
  * Blackboard 6.0 question importer.
@@ -40,7 +40,7 @@ class qformat_blackboard_six_qti extends qformat_blackboard_six_base {
      * @param array $text array of lines from the input file.
      * @return array (of objects) questions objects.
      */
-    protected function readquestions($text) {
+    public function readquestions($text) {
 
         // This converts xml to big nasty data structure,
         // the 0 means keep white space as it is.
