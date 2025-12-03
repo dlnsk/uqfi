@@ -140,7 +140,7 @@ class qformat_missingword extends qformat_default {
                     if (strspn($answer, "1234567890%") > 0) {
                         // Make sure that the percent sign is the last in the span.
                         if (strpos($answer, "%") == strspn($answer, "1234567890%") - 1) {
-                            $answeight0 = substr($answer, 0, strspn($answer, "1234567890%"));
+                            $answeight0 = substr($answer, 0, strspn($answer, "1234567890"));
                             $answeight = round(($answeight0/100), 2);
                             $answer = substr($answer, (strspn($answer, "1234567890%")));
                         }
