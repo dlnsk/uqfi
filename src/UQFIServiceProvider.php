@@ -21,8 +21,8 @@ class UQFIServiceProvider extends ServiceProvider
     public function register()
     {
         define("MOODLE_INTERNAL", "dummy");
-        require_once(__DIR__ . '/../qformats/functions.php');
-        require_once(__DIR__ . '/../qformats/xmlize.php');
+        require_once(__DIR__ . '/../lib/functions.php');
+        require_once(__DIR__ . '/../lib/xmlize.php');
     }
 
     /**
