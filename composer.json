@@ -18,6 +18,7 @@
          "Dlnsk\\UQFI\\": "src"
         },
         "classmap": [
+            "lib",
             "qformats"
         ]
     },

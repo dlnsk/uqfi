@@ -1,17 +1,74 @@
 <?php
 
-
+/**
+ * This static class provides access to the other question bank.
+ *
+ * It provides functions for managing question types and question definitions.
+ *
+ * @copyright  2009 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class question_bank {
+    /** @var array question type name => question_type subclass. */
+    private static $questiontypes = array();
+
     public static function get_all_qtypes ()
     {
         return [];
     }
+
+    /**
+     * Get the question type class for a particular question type.
+     * @param string $qtypename the question type name. For example 'multichoice' or 'shortanswer'.
+     * @param bool $mustexist if false, the missing question type is returned when
+     *      the requested question type is not installed.
+     * @return question_type the corresponding question type class.
+     */
+    public static function get_qtype($qtypename, $mustexist = true) {
+        global $CFG;
+        if (isset(self::$questiontypes[$qtypename])) {
+            return self::$questiontypes[$qtypename];
+        }
+        $file = core_component::get_plugin_directory('qtype', $qtypename) . '/questiontype.php';
+        if (!is_readable($file)) {
+            if ($mustexist || $qtypename == 'missingtype') {
+                throw new coding_exception('Unknown question type ' . $qtypename);
+            } else {
+                return self::get_qtype('missingtype');
+            }
+        }
+        include_once($file);
+        $class = 'qtype_' . $qtypename;
+        if (!class_exists($class)) {
+            throw new coding_exception("Class {$class} must be defined in {$file}.");
+        }
+        self::$questiontypes[$qtypename] = new $class();
+        return self::$questiontypes[$qtypename];
+    }
 }
+
 
 abstract class core_tag_tag {
     public static function is_enabled ($a, $b)
     {
         return false;
+    }
+}
+
+
+/**
+ * Collection of components related methods.
+ */
+class core_component {
+    /**
+     * Returns the exact absolute path to plugin directory.
+     *
+     * @param string $plugintype type of plugin
+     * @param string $pluginname name of the plugin
+     * @return string full path to plugin directory; null if not found
+     */
+    public static function get_plugin_directory($plugintype, $pluginname) {
+        return __DIR__ . "/../qtypes/$pluginname";
     }
 }
 
