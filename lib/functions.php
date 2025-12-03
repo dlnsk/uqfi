@@ -57,7 +57,7 @@ function get_config($module, $option) {
 }
 
 function get_string($identifier, $component = 'common') {
-    return 'no_string';//__("moodle.$component.$identifier");
+    return "$component.$identifier";
 }
 
 function shorten_text($text, $limit) {
