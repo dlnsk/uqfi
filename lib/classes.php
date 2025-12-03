@@ -17,6 +17,16 @@ abstract class question_bank {
         return [];
     }
 
+    public static function is_qtype_installed ($type)
+    {
+        switch ($type) {
+            case 'ddmatch':
+                return true;
+        }
+
+        return false;
+    }
+
     /**
      * Get the question type class for a particular question type.
      * @param string $qtypename the question type name. For example 'multichoice' or 'shortanswer'.

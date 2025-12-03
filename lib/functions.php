@@ -67,3 +67,30 @@ function shorten_text($text, $limit) {
 function clean_param($param, $type) {
     return $param;
 }
+
+/**
+ * A helper to replace PHP 8.3 usage of array_keys with two args.
+ *
+ * There is an indication that this will become a new method in PHP 8.4, but that has not happened yet.
+ * Therefore this non-polyfill has been created with a different naming convention.
+ * In the future it can be deprecated if a core PHP method is created.
+ *
+ * https://wiki.php.net/rfc/deprecate_functions_with_overloaded_signatures#array_keys
+ *
+ * @param array $array
+ * @param mixed $filter The value to filter on
+ * @param bool $strict Whether to apply a strit test with the filter
+ * @return array
+ */
+function moodle_array_keys_filter(array $array, $filter, bool $strict = false): array {
+    return array_keys(array_filter(
+        $array,
+        function($value, $key) use ($filter, $strict): bool {
+            if ($strict) {
+                return $value === $filter;
+            }
+            return $value == $filter;
+        },
+        ARRAY_FILTER_USE_BOTH,
+    ));
+}
