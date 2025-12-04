@@ -30,14 +30,12 @@ abstract class BaseFormat
     public function readDecoratedQuestions(): array {
         $questions = $this->readQuestions();
         foreach ($questions as $question) {
-            if ($question->qtype === 'category') {
-                continue;
-            }
             $this->mergeInto($question, ['fraction', 'feedback', 'tolerance'], 'answer');
             $this->mergeInto($question, 'multiplier', 'unit');
             $this->drownInto($question, 'format', ['questiontext', 'generalfeedback']);
             $this->drownInto($question, 'files', ['generalfeedback']);
             $this->drownFiles($question, ['questiontext', 'answer', 'subquestions']);
+            $this->mergeInto($question, ['subanswers' => 'answer'], 'subquestions'); // Merge with renaming
             $this->unsetFields($question, [
                 'export_process',
                 'import_process',
@@ -105,19 +103,26 @@ abstract class BaseFormat
     protected function mergeInto(&$question, $fields, $into)
     {
         $fields = is_array($fields) ? $fields : [$fields];
+        // Transform ['a' => 'b', 5 => 'c'] into ['a' => 'b', 'c' => 'c']
+        // to use it for renaming fields in future
+        $fields = array_merge(...array_map(function ($k, $v) {
+            $key = is_numeric($k) ? $v : $k;
+            return [$key => $v];
+        }, array_keys($fields), $fields));
+
         if (isset($question->$into) && is_array($question->$into)) {
             $set = [];
             foreach ($question->$into as $key => $item) {
                 $item = is_array($item) ? $item : ['text' => $item];
-                foreach ($fields as $field) {
-                    if (isset($question->$field)) {
-                        $item[$field] = $question->$field[$key];
+                foreach ($fields as $old_name => $new_name) {
+                    if (isset($question->$old_name)) {
+                        $item[$new_name] = $question->$old_name[$key];
                     }
                 }
                 $set[] = $item;
             }
             $question->$into = $set;
-            $this->unsetFields($question, $fields);
+            $this->unsetFields($question, array_keys($fields));
         }
     }
 
