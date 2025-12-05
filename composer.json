@@ -1,7 +1,7 @@
 {
     "name": "dlnsk/uqfi",
     "description": "Universal question format importer",
-    "license": "GNU GPL v3",
+    "license": "GPLv3",
     "keywords": ["laravel", "moodle", "questions", "format", "gift", "aiken", "missingword", "moodle_xml", "blackboard6"],
     "homepage": "https://github.com/dlnsk/uqfi",
     "authors": [
