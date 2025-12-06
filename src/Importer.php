@@ -8,12 +8,19 @@ use Dlnsk\UQFI\Formats\Gift;
 use Dlnsk\UQFI\Formats\MissingWord;
 use Dlnsk\UQFI\Formats\Xml;
 
-class FormatBuilder
+class Importer
 {
+    public static function init()
+    {
+        define("MOODLE_INTERNAL", "dummy");
+        require_once(__DIR__ . '/../lib/functions.php');
+        require_once(__DIR__ . '/../lib/xmlize.php');
+    }
+
     /**
      * @throws \Exception
      */
-    public static function build($format, $filePath) {
+    public static function getFormat($format, $filePath) {
         switch ($format) {
             case 'aiken':
                 return new Aiken($filePath);
