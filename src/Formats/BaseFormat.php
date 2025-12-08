@@ -37,10 +37,12 @@ abstract class BaseFormat
             $this->drownInto($question, 'files', ['generalfeedback']);
             $this->drownFiles($question, ['questiontext', 'answer', 'subquestions']);
             $this->mergeInto($question, ['subanswers' => 'answer'], 'subquestions'); // Merge with renaming
+            $question->type = $question->qtype;
             $this->unsetFields($question, [
                 'export_process',
                 'import_process',
                 'length',
+                'qtype',
             ]);
         }
 
