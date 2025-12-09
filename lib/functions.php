@@ -61,10 +61,14 @@ function get_string($identifier, $component = 'common') {
 }
 
 function shorten_text($text, $limit) {
-    return mb_substr($text, 0, $limit);
+    $postfix = strlen($text) > $limit ? '...' : '';
+    return mb_substr($text, 0, $limit) . $postfix;
 }
 
 function clean_param($param, $type) {
+    if (in_array($type, [PARAM_TEXT])) {
+        return strip_tags($param);
+    }
     return $param;
 }
 
@@ -91,6 +95,6 @@ function moodle_array_keys_filter(array $array, $filter, bool $strict = false): 
             }
             return $value == $filter;
         },
-        ARRAY_FILTER_USE_BOTH,
+        ARRAY_FILTER_USE_BOTH
     ));
 }
