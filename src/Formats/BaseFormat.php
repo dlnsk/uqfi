@@ -35,7 +35,17 @@ abstract class BaseFormat
             $this->mergeInto($question, 'multiplier', 'unit');
             $this->drownInto($question, 'format', ['questiontext', 'generalfeedback']);
             $this->drownInto($question, 'files', ['generalfeedback']);
-            $this->drownFiles($question, ['questiontext', 'answer', 'subquestions']);
+            $this->drownFiles($question, [
+                'questiontext',
+                'answer',
+                'subquestions',
+                'generalfeedback',
+                'correctfeedback',
+                'partiallycorrectfeedback',
+                'incorrectfeedback',
+                'feedbacktrue',
+                'feedbackfalse',
+            ]);
             $this->mergeInto($question, ['subanswers' => 'answer'], 'subquestions'); // Merge with renaming
             $question->type = $question->qtype;
             $this->unsetFields($question, [
@@ -97,6 +107,12 @@ abstract class BaseFormat
                     $question->$field = is_array($question->$field) ? $question->$field : ['text' => $question->$field];
                     $question->$field['files'] = $this->decorateFiles($question->{$field.'itemid'});
                     unset($question->{$field.'itemid'});
+                    continue;
+                }
+                // Single field with files inside
+                if (isset($question->$field['itemid'])) {
+                    $question->$field['files'] = $this->decorateFiles($question->$field['itemid']);
+                    unset($question->$field['itemid']);
                     continue;
                 }
                 // Countable field with numeric keys like 'answer'
