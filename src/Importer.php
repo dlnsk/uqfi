@@ -6,7 +6,7 @@ use Dlnsk\UQFI\Formats\Aiken;
 use Dlnsk\UQFI\Formats\BlackBoard6;
 use Dlnsk\UQFI\Formats\Gift;
 use Dlnsk\UQFI\Formats\MissingWord;
-use Dlnsk\UQFI\Formats\Xml;
+use Dlnsk\UQFI\Formats\MoodleXML;
 
 class Importer
 {
@@ -30,8 +30,8 @@ class Importer
                 return new Gift($filePath);
             case 'missingword':
                 return new MissingWord($filePath);
-            case 'xml':
-                return new Xml($filePath);
+            case 'moodlexml':
+                return new MoodleXML($filePath);
         }
 
         throw new \Exception("Format '{$format}' not supported");

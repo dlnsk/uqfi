@@ -2,7 +2,7 @@
 
 namespace Dlnsk\UQFI\Formats;
 
-class Xml extends BaseFormat
+class MoodleXML extends BaseFormat
 {
     public function __construct($filePath)
     {

@@ -52,8 +52,8 @@ Some simple steps to fool Moodle native library.
 $format = Importer::getFormat($format, $file_path);
 ```
 Creates a *formatter class* for given format and file. The `format` parameter can be one of
-"gift", "aiken", "missingword", "xml" or "blackboard6". Keep in mind that "blackboard6" format
-require *zip* file as source of a questions bank. Use "xml" for native *Moodle XML* banks.
+"gift", "aiken", "missingword", "moodlexml" or "blackboard6". Keep in mind that "blackboard6" format
+require *zip* file as source of a questions bank.
 
 You also can directly create a necessary class:
 
