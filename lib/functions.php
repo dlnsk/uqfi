@@ -56,6 +56,15 @@ function get_config($module, $option) {
     return $options["$module.$option"];
 }
 
+function get_string_manager() {
+    return new class {
+        public function string_exists($errorcode, $module): string
+        {
+            return "$module.$errorcode";
+        }
+    };
+}
+
 function get_string($identifier, $component = 'common') {
     return "$component.$identifier";
 }
