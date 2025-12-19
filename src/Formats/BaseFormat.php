@@ -13,7 +13,7 @@ abstract class BaseFormat
     }
 
     /**
-     * Get list of question.
+     * Get list of questions.
      * Every question has a native Moodle structure.
      *
      * @return array
@@ -23,15 +23,30 @@ abstract class BaseFormat
     }
 
     /**
-     * Transform native Moodle question's structure to structure
-     * looking like Moodle XML export.
+     * Get list of questions that looks much better.
      *
      * @return array
      */
     public function readDecoratedQuestions(): array {
         $questions = $this->readQuestions();
+
+        return $this->decorate($questions);
+    }
+
+    /**
+     * Transform native Moodle question's structure to a structure
+     * looking like a Moodle XML export.
+     *
+     * @param array $questions    List of questions with native structure
+     * @return array
+     */
+    public function decorate(array $questions): array {
         foreach ($questions as $question) {
             $this->mergeInto($question, ['fraction', 'feedback', 'tolerance'], 'answer');
+            $this->mergeInto($question, [
+                'hintshownumcorrect' => 'shownumcorrect',   // Merge and rename
+                'hintclearwrong' => 'clearwrong',
+            ], 'hint');
             $this->mergeInto($question, 'multiplier', 'unit');
             $this->drownInto($question, 'format', ['questiontext', 'generalfeedback']);
             $this->drownInto($question, 'files', ['generalfeedback']);
@@ -48,11 +63,14 @@ abstract class BaseFormat
             ]);
             $this->mergeInto($question, ['subanswers' => 'answer'], 'subquestions'); // Merge with renaming
             $question->type = $question->qtype;
+            $question->defaultgrade = $question->defaultmark ?? '1';
             $this->unsetFields($question, [
                 'export_process',
                 'import_process',
                 'length',
+                'image',
                 'qtype',
+                'defaultmark',
             ]);
         }
 
@@ -132,9 +150,9 @@ abstract class BaseFormat
      * Transform a question to put connected (by name) data into target field.
      * For example, it puts 'questiontextformat' into 'questiontext'
      *
-     * @param $question
-     * @param $drowned
-     * @param $into
+     * @param array $question
+     * @param string $drowned       Suffix of field which should drown (for example, 'format')
+     * @param string|array $into    Target field names (for example, 'questiontext)
      * @return void
      */
     protected function drownInto(&$question, $drowned, $into) {
