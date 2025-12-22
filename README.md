@@ -32,7 +32,8 @@ require 'vendor/autoload.php';
 
 // Use
 $format = Dlnsk\UQFI\Importer::getFormat('gift', $file_path);
-$questions = $format->readQuestions();
+$questions = $format->readQuestions(); // or
+$decorated = $format->readDecoratedQuestions(); // to get questions with much nicer structure
 ```
 
 ### Laravel
