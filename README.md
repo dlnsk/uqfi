@@ -78,3 +78,23 @@ into parent elements, transform files' data, and so on. The structure of a decor
 close to MoodleXML file.
 
 See `BaseFormat` class for some helpful methods.
+
+
+## Question types
+
+Currently, the package supports next question types:
+1. calculated / calculatedsimple
+1. essay
+1. matching / match / ddmatch
+1. multichoice
+1. numerical
+1. ordering
+1. shortanswer
+
+
+### Third party question types
+
+To add support for any other type:
+1. Copy third party question type sources to `qtypes` directory of the package.
+2. Suppress any errors.
+3. Make pull request.
