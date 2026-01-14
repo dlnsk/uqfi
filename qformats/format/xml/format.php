@@ -1061,7 +1061,6 @@ class qformat_xml extends qformat_default {
             // Not a type we handle ourselves. See if the question type wants
             // to handle it.
             if (!$qo = $this->try_importing_using_qtypes($questionxml, null, null, $questiontype)) {
-                $this->error(get_string('xmltypeunsupported', 'qformat_xml', $questiontype));
                 return null;
             }
             return $qo;
